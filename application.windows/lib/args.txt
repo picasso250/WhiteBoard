@@ -1,3 +1,0 @@
-
-sketch_sep06a_whiteboard
-sketch_sep06a_whiteboard.jar,core.jar
