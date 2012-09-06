@@ -1,4 +1,0 @@
-#!/bin/sh
-
-APPDIR=$(dirname "$0")
-java  -Djava.library.path="$APPDIR" -cp "$APPDIR/lib/sketch_sep06a_whiteboard.jar:$APPDIR/lib/core.jar" sketch_sep06a_whiteboard
