@@ -1,7 +1,6 @@
 void setup() {
   size(1000, 700);
   smooth();
-  
   clearScreen();
   showInstruction();
 }
@@ -20,7 +19,11 @@ void draw() {
     line(mouseX, mouseY, pmouseX, pmouseY);
   }
   if (keyPressed) {
-    clearScreen();
+    if (key == 's' || key == 'S') {
+      save("shot.png");
+    } else if (key == ' ') {
+      clearScreen();
+    }
   }
 }
 
