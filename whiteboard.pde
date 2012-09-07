@@ -32,7 +32,7 @@ void clearScreen() {
 }
 
 void showInstruction() {
-  fill(200);
-  String instr = "像您一开始想像的那样使用白板。左键使用，右键强调，空格键清除屏幕。\n小池制作 SoMe";
+  fill(180);
+  String instr = "就是这样使用白板。左键画图，右键强调，空格键清除屏幕， S 键保存截图， Esc 键退出。\n\n小池制作 SoMe";
   text(instr, 100, 100);
 }
