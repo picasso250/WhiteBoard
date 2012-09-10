@@ -7,6 +7,8 @@ Write in Procesing, based on Java.
 
 Runing on Linux, Windows and Mac.
 
+Now add java version.
+
 todo
 ----
 
