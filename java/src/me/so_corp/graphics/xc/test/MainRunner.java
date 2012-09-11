@@ -15,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -24,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.imageio.ImageIO;
 
-public class MainRunner extends Frame implements KeyListener, MouseListener, ComponentListener {
+public class MainRunner extends Frame implements KeyListener, MouseListener, ComponentListener, WindowListener {
 
 	/**
 	 * 
@@ -109,6 +111,7 @@ public class MainRunner extends Frame implements KeyListener, MouseListener, Com
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addComponentListener(this);
+		this.addWindowListener(this);
 		bufferedImage  = new BufferedImage(this.getWidth(), this.getHeight(), MainRunner.IMG_TYPE);
 	}
 	
@@ -118,8 +121,7 @@ public class MainRunner extends Frame implements KeyListener, MouseListener, Com
 		switch (keyCode) {
 		case KeyEvent.VK_ESCAPE:
 			// exit, but how to exit elegantly?
-			this.dispose();
-			System.exit(0);
+			exit();
 			break;
 		case KeyEvent.VK_SPACE:
 			clearBackground();
@@ -130,6 +132,11 @@ public class MainRunner extends Frame implements KeyListener, MouseListener, Com
 		default:
 			break;
 		}
+	}
+
+	private void exit() {
+		this.dispose();
+		System.exit(0);
 	}
 
 	private void saveSnapshot() {
@@ -192,22 +199,55 @@ public class MainRunner extends Frame implements KeyListener, MouseListener, Com
 	}
 
 	@Override
-	public void componentHidden(ComponentEvent e) {
-	}
+	public void componentHidden(ComponentEvent e) {}
 
 	@Override
-	public void componentMoved(ComponentEvent e) {
-	}
+	public void componentMoved(ComponentEvent e) {}
 
 	@Override
 	public void componentResized(ComponentEvent e) {
 		// 太多执行次数，如何减少？
+		BufferedImage oldImage = this.bufferedImage;
 		this.bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), MainRunner.IMG_TYPE);
 		this.clearBackground();
+		Graphics2D graphics2d = this.bufferedImage.createGraphics();
+		graphics2d.drawImage(oldImage, 0, 0, this); // copy old image
+		updateImage();
+	}
+
+	private void updateImage() {
+		Graphics graphics = this.getGraphics();
+		if (graphics != null) {
+			graphics.drawImage(bufferedImage, 0, 0, this);
+		}
 	}
 
 	@Override
-	public void componentShown(ComponentEvent e) {
+	public void componentShown(ComponentEvent e) {}
+
+	@Override
+	public void windowActivated(WindowEvent e) {}
+
+	@Override
+	public void windowClosed(WindowEvent e) {}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		exit();
 	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		updateImage();
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowOpened(WindowEvent e) {}
 
 }
